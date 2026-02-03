@@ -79,4 +79,7 @@
 ├── package.json                # 项目依赖与脚本配置
 ├── tsconfig.json               # TypeScript 编译配置
 ├── vite.config.ts              # Vite 构建与代理配置
-└── vitest.config.ts            # 单元测试环境配置
+├── vitest.config.ts            # 单元测试环境配置
+├── PROJECT_STRUCTURE.md        # 目录
+├── README.v2.0.md              #简介
+└── 使用教程.md   
