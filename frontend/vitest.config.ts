@@ -1,16 +1,22 @@
-import { defineConfig } from 'vitest/config'
+/// <reference types="vitest" />
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { resolve } from 'path'
+import path from 'path'
 
 export default defineConfig({
-  plugins: [vue() as any], // 添加类型断言
+  plugins: [vue()],
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src')
+      '@': path.resolve(__dirname, 'src')
     }
   },
   test: {
-    environment: 'jsdom',
     globals: true,
+    environment: 'jsdom',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html']
+    },
+    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}']
   }
 })
