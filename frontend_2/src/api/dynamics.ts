@@ -1,37 +1,21 @@
+// src/api/dynamics.ts
 import request from '@/utils/request'
 
-export interface DynamicsStatus {
-  running: boolean
-  progress: number
-  identification_count: number
-  max_identification_count: number
-  axis_errors: number[] | Record<string, number> 
-  current_params: {
-    range: number
-    speed: number
-  }
-  zero_position_confirmed: boolean
-}
-
-// 1. 获取状态
+// 1. 获取状态 (V2 路径)
 export const getDynamicsStatus = () => {
-  return request.get<{ data: DynamicsStatus }>('/v1/dynamics/status')
+  return request.get('/dynamics/identification/status')
 }
 
-// 2. 开始辨识
+// 2. 开始辨识 (V2 路径: /start)
 export const startIdentification = (range: number, speed: number) => {
-  return request.post('/v1/dynamics/start', { 
+  // [Config Change] V2 显式区分 start/stop 动作路径
+  return request.post('/dynamics/identification/start', { 
     trajectory_range: range, 
     trajectory_speed: speed 
   })
 }
 
-// 3. 停止辨识
+// 3. 停止辨识 (V2 路径: /stop)
 export const stopIdentification = () => {
-  return request.post('/v1/dynamics/stop')
-}
-
-// 4. 确认零点
-export const confirmZero = () => {
-  return request.post('/v1/dynamics/confirm_zero')
+  return request.post('/dynamics/identification/stop')
 }

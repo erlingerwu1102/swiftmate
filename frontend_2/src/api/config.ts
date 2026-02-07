@@ -1,16 +1,26 @@
-import axios from 'axios'
+// frontend_2/src/api/config.ts
+import request from '@/utils/request' // 修复：必须添加此行
 
 export interface CollisionConfig {
-  threshold: number  // 碰撞阈值
-  enabled: boolean   // 是否开启检测 (可选)
+  axis: number
+  sensitivity: number
 }
 
-// 获取碰撞配置
+/**
+ * 获取碰撞配置
+ * 说明：V2 无直接 GET 接口，从 V1 安全状态中获取
+ */
 export const getCollisionConfig = () => {
-  return axios.get<{ code: number; data: CollisionConfig }>('/api/v1/config/collision')
+  return request.get('/safety/status')
 }
 
-// 更新碰撞配置
+/**
+ * 更新碰撞配置 (走 V2 路径)
+ * 对应后端: @bp_v2.route('/collision/sensitivity')
+ */
 export const setCollisionConfig = (config: CollisionConfig) => {
-  return axios.post('/api/v1/config/collision', config)
+  return request.post('/collision/sensitivity', {
+    axis: config.axis,
+    sensitivity: config.sensitivity
+  })
 }

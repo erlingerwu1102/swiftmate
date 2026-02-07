@@ -2,7 +2,7 @@
 
 基于 Vue 3 + Vite + TypeScript 技术栈
 
-## 📂 目录结构树
+## 目录结构树
 
 ```text
 .
@@ -82,4 +82,5 @@
 ├── vitest.config.ts            # 单元测试环境配置
 ├── PROJECT_STRUCTURE.md        # 目录
 ├── README.v2.0.md              #简介
-└── 使用教程.md   
+└── 使用教程.md                   
+

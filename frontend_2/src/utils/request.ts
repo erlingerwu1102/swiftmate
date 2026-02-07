@@ -1,55 +1,39 @@
-// src/utils/request.ts
-import axios, { type AxiosInstance, type AxiosResponse, type AxiosError } from 'axios'
+// frontend_2/src/utils/request.ts
+import axios from 'axios'
 
-// 响应结构
-interface ApiResponse<T = any> {
-  code: number
-  msg: string
-  data: T
-}
-
-// 错误结构
-interface ApiErrorData {
-  request_id?: string
-  type?: string
-  timestamp?: number
-  details?: any
-}
-
-const service: AxiosInstance = axios.create({
-  baseURL: '/api', 
-  timeout: 10000,
-  headers: { 'Content-Type': 'application/json' }
+// 核心修复：Node.js 环境下必须使用绝对路径
+const isNode = typeof window === 'undefined'
+const service = axios.create({
+  // 如果是测试环境，强制补全本地后端地址
+  baseURL: isNode ? 'http://127.0.0.1:8000/api/v2' : '/api/v2',
+  timeout: 10000
 })
 
-// 响应拦截器
+service.interceptors.request.use((config) => {
+  config.headers['X-API-Key'] = 'swiftmate'
+
+  const v1Endpoints = ['emergency/stop', 'safety/status', 'safety/collision', 'camera/control', 'reset', 'status']
+  const isV1 = v1Endpoints.some(path => config.url?.includes(path))
+
+  if (isV1) {
+    // 动态切换时也要保持绝对路径
+    config.baseURL = isNode ? 'http://127.0.0.1:8000/api/v1' : '/api/v1'
+  }
+
+  return config
+})
+
+// 核心修复：丢弃 Axios 的 Response 原型链，只传纯数据，彻底消灭 DataCloneError
 service.interceptors.response.use(
-  (response: AxiosResponse<ApiResponse>) => {
-    const res = response.data
-    // 如果 code 不是 200, 视为业务错误
-    if (res.code && res.code !== 200) {
-      console.error(`[BizError] ${res.msg}`)
-      return Promise.reject(new Error(res.msg || 'Error'))
-    }
-    return response
+  (response) => {
+    // 仅返回普通的 JSON 对象
+    return JSON.parse(JSON.stringify(response.data))
   },
-  (error: AxiosError<ApiResponse<ApiErrorData>>) => {
-    let message = 'Network Error'
-    let requestId = 'N/A'
-    
+  (error) => {
     if (error.response) {
-      const data = error.response.data
-      message = data.msg || error.message
-      if (data.data) {
-        requestId = data.data.request_id || 'N/A'
-      }
-      console.error(`❌ [API Fail] ID:${requestId} | Msg:${message}`)
-    } else {
-      console.error(`❌ [Network] ${error.message}`)
+      return Promise.resolve(JSON.parse(JSON.stringify(error.response.data)))
     }
-    
-    // 将 requestId 传递下去，以便 UI 展示
-    return Promise.reject({ message, requestId, originalError: error })
+    return Promise.reject(error)
   }
 )
 

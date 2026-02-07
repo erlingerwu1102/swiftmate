@@ -1,19 +1,23 @@
-// @vitest-environment node
+// frontend_2/src/tests/utils.ts
+import service from '../utils/request'
 import axios from 'axios'
 
-// 确保 URL 结构清晰
-export const BASE_URL = 'http://localhost:8000'
-const API_PREFIX = '/api/v1'
+export const BASE_URL = 'http://127.0.0.1:8000'
+export const API_PREFIX = '/api/v2'
 
-export const testClient = axios.create({
-  baseURL: `${BASE_URL}${API_PREFIX}`,
-  timeout: 15000, 
-  validateStatus: () => true 
-})
+export const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+// 直接引用我们刚刚加固过的 service
+export const testClient = service 
 
 export const resetSystem = async () => {
-  await testClient.post('/dynamics/stop')
-  await sleep(500)
+  try {
+    // 强制使用绝对路径
+    await axios.post(`${BASE_URL}/api/v1/emergency/stop`, {}, {
+      headers: { 'X-API-Key': 'swiftmate' },
+      validateStatus: () => true 
+    })
+  } catch (e) {
+    // 静默处理重置错误
+  }
 }

@@ -1,22 +1,18 @@
-/// <reference types="vitest" />
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import path from 'path'
+// frontend_2/vitest.config.ts
+import { defineConfig, configDefaults } from 'vitest/config'
 
 export default defineConfig({
-  plugins: [vue()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src')
-    }
-  },
   test: {
-    globals: true,
-    environment: 'jsdom',
-    coverage: {
-      provider: 'v8',
-      reporter: ['text', 'json', 'html']
-    },
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}']
+    exclude: [...configDefaults.exclude, 'swiftmate/**', 'docs/**'],
+    
+    include: ['src/tests/**/*.spec.ts'],
+    
+    fileParallelism: false,
+    
+    reporters: ['default', 'html', 'json'],
+    outputFile: {
+      html: './docs/reports/index.html',
+      json: './docs/reports/test-results.json' 
+    }
   }
 })

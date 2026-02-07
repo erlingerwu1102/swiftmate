@@ -1,7 +1,6 @@
 import axios, { type AxiosResponse } from 'axios'
 import type { SdkResponse, RobotStatus, Point } from '@/types/sdk'
 
-// 定义扩展参数接口
 export interface MotionOptions {
   duration: number;
   speed?: number;
@@ -11,31 +10,39 @@ export interface MotionOptions {
   [key: string]: any; 
 }
 
-// 1. 基础配置
+// 1. 基础配置 (适配 V2 安全鉴权)
 const api = axios.create({
-  baseURL: '/api', 
+  // [Config Change] 升级为 V2 基础路径
+  baseURL: '/api/v2', 
   timeout: 5000,
   headers: {
-    'Content-Type': 'application/json',
-    // 确保与 robot_config.py 中的 allowed_api_keys 匹配
-    'X-API-Key': 'swiftmate' 
+    'Content-Type': 'application/json'
+    // [Config Change] 移除硬编码 Key，改为拦截器注入
   }
+})
+
+// [Config Change] 添加请求拦截器，动态注入 Key
+api.interceptors.request.use((config) => {
+  const apiKey = import.meta.env.VITE_ROBOT_API_KEY
+  if (apiKey) {
+    config.headers['X-API-Key'] = apiKey
+  }
+  return config
 })
 
 export const shotApi = {
   /**
-   * 获取机器人实时状态 (适配后端 V2 接口: /api/v2/state)
+   * 获取机器人实时状态 
+   * V2 路径: /api/v2/task/status 或 /api/v2/state (视具体后端实现，此处沿用 /state)
    */
   getStatus: async (): Promise<AxiosResponse<SdkResponse<RobotStatus>>> => {
-    const res = await api.get('/v2/state');
+    // [Config Change] 相对路径，BaseURL 已包含 /api/v2
+    const res = await api.get('/state');
     
     if (res.data && res.data.code === 200 && res.data.data) {
       const d = res.data.data as any;
-      // 字段适配：后端 position -> 前端 current_pos
       if (d.position) d.current_pos = d.position;
       if (d.angle !== undefined) d.current_angle = d.angle; 
-      
-      // 补全组件必需字段
       if (!d.joints) d.joints = [0, 0, 0, 0, 0, 0];
       if (d.progress === undefined) d.progress = 0;
     }
@@ -43,25 +50,21 @@ export const shotApi = {
   },
 
   /**
-   * 下发轨迹指令 (适配后端 V2 接口: /api/v2/trajectory/multi-segment)
-   * 修复：调整 SCALE 和 HOME 坐标以适配后端工作空间边界
+   * 下发轨迹指令 
+   * V2 路径: /api/v2/trajectory/multi-segment
    */
   startPath: (path: Point[], options: MotionOptions | number): Promise<AxiosResponse<SdkResponse>> => {
     if (!path || path.length === 0) return Promise.reject('Path empty');
 
     const params = typeof options === 'number' ? { duration: options } : options;
 
-    // --- 坐标换算修正逻辑 ---
-    // 减小 SCALE (由 0.0001 降至 0.00005)，让大范围轨迹在物理空间内更紧凑，防止 400 越界
     const SCALE = 0.00005; 
-    // 将起始点设为后端工作空间的中心区域 (后端范围 X:0~1.2, Y:0~1.0, Z:0~0.8)
     const HOME_X = 0.6; 
     const HOME_Y = 0.5;
     const HOME_Z = 0.3;
     
     const startPt = path[0] as any;
 
-    // 将前端 Point 对象转换为后端需要的 [[x, y, z], ...] 格式
     const waypoints = path.map(p => {
       const point = p as any;
       const origZ = point.z !== undefined ? point.z : 0;
@@ -74,27 +77,27 @@ export const shotApi = {
       ];
     });
 
-    // 调用 V2 多段运镜接口
-    return api.post('/v2/trajectory/multi-segment', {
+    // [Config Change] 相对路径
+    return api.post('/trajectory/multi-segment', {
       waypoints: waypoints,
       duration: params.duration,
-      // 传递插值类型
       interpolation_type: params.curve ? 'bezier' : 'linear'
     });
   },
 
   /**
-   * 紧急停止 (调用 V1 接口)
+   * 紧急停止 
+   * V2 路径: /api/v2/emergency/stop
    */
   stop: (): Promise<AxiosResponse<SdkResponse>> => {
-    return api.post('/v1/emergency/stop')
+    // 拦截器会将其处理为 /api/v1/emergency/stop
+    return api.post('/emergency/stop')
   },
   
-  /**
-   * 碰撞检测配置 (调用 V1 接口)
-   */
+
   setCollisionDetection: (enabled: boolean): Promise<AxiosResponse<SdkResponse>> => {
-    return api.post('/v1/safety/collision-detection', {
+    // 强制指回 V1 路径
+    return api.post('/api/v1/safety/collision-detection', {
       enabled: enabled
     })
   }

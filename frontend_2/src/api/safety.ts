@@ -1,25 +1,28 @@
-import axios from 'axios'
+// src/api/safety.ts
+import request from '@/utils/request'
 
 export interface SafetyStatus {
   is_safe: boolean
   warning_msg: string | null
-  current_load: number     // 假设后端返回电流负载
+  current_load: number
   collision_detected: boolean
   emergency_stop: boolean
 }
 
-// 获取安全状态 (通常需要轮询)
+// 获取安全状态
 export const getSafetyStatus = () => {
-  // 假设后端接口为 GET /api/v1/safety/status
-  return axios.get<{ code: number; data: SafetyStatus }>('/api/v1/safety/status')
+  // 保持使用 request。拦截器会自动检测 'status' 并切换至 /api/v1/status
+  return request.get<{ code: number; data: SafetyStatus }>('/status')
 }
 
-// 触发急停 (复用已有的逻辑，或走统一的安全接口)
+// 触发急停
 export const triggerEmergencyStop = () => {
-  return axios.post('/api/v1/safety/estop')
+  // 拦截器会自动检测 'emergency/stop' 并切换至 /api/v1/emergency/stop
+  return request.post('/emergency/stop')
 }
 
-// 复位错误状态
+// 复位错误
 export const resetSafetyError = () => {
-  return axios.post('/api/v1/safety/reset')
+  // 后端源码中该接口为 /api/v1/reset，而非 /safety/reset
+  return request.post('/reset')
 }
