@@ -1,0 +1,112 @@
+PS C:\Users\16368\Desktop\combin\swiftmate1_6_1> npx vitest run src/tests/integration/03_stability.spec.ts --reporter=verbose
+
+ RUN  v1.6.1 C:/Users/16368/Desktop/combin/swiftmate1_6_1
+
+stdout | frontend_2/src/tests/integration/03_stability.spec.ts > ⏳ SwiftMate 1小时高可靠稳定性试验 > I-05: 稳定性接力试验 (持续时间: 3600s)
+
+🚀 [Stability] 启动试验，当前时间: 22:09:08
+
+[Attempt 1] 🟠 状态锁定 (400)，正在自动复位...  ❯ frontend_2/src/tests/integration/03_stabi
+stdout | frontend_2/src/tests/integration/03_stability.spec.ts > ⏳ SwiftMate 1小时高可靠稳定性试验 > I-05: 稳定性接力试验 (持续时间: 3600s)
+
+
+📊 [总结] 试验结束时间: 23:11:58
+- 总完成循环: 215
+- 成功率: 49.20%
+
+ ✓ frontend_2/src/tests/integration/03_stability.spec.ts (1) 3774109ms
+   ✓ ⏳ SwiftMate 1小时高可靠稳定性试验 (1) 3774109ms
+     ✓ I-05: 稳定性接力试验 (持续时间: 3600s) 3770547ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  22:09:05
+   Duration  3775.41s (transform 120ms, setup 0ms, collect 342ms, tests 3774.11s, environment 1ms, prepare 288ms)
+
+PS C:\Users\16368\Desktop\combin\swiftmate1_6_1> npx vitest run src/tests/integration/03_stability.spec.ts --reporter=json --outputFile=frontend_2/docs/reports/stability_1h.json     
+[Attempt 1340] 🟢 循环 1340 成功运行中... JSON report written to C:/Users/16368/Desktop/combin/swiftmate1_6_1/frontend_2/docs/reports/stability_1h.json
+PS C:\Users\16368\Desktop\combin\swiftmate1_6_1>
+
+
+
+
+
+
+ ✓ frontend_2/src/tests/integration/03_stability.spec.ts (1) 3774109ms
+   ✓ ⏳ SwiftMate 1小时高可靠稳定性试验 (1) 3774109ms
+     ✓ I-05: 稳定性接力试验 (持续时间: 3600s) 3770547ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  22:09:05
+   Duration  3775.41s (transform 120ms, setup 0ms, collect 342ms, tests 3774.11s, environment 1ms, prepare 288ms)
+
+PS C:\Users\16368\Desktop\combin\swiftmate1_6_1> npx vitest run src/tests/integration/03_stability.spec.ts --reporter=json --outputFile=frontend_2/docs/reports/stability_1h.json     
+[Attempt 1340] 🟢 循环 1340 成功运行中... JSON report written to C:/Users/16368/Desktop/combin/swiftmate1_6_1/frontend_2/docs/reports/stability_1h.json
+ ✓ frontend_2/src/tests/integration/03_stability.spec.ts (1) 3774109ms
+   ✓ ⏳ SwiftMate 1小时高可靠稳定性试验 (1) 3774109ms
+     ✓ I-05: 稳定性接力试验 (持续时间: 3600s) 3770547ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  22:09:05
+   Duration  3775.41s (transform 120ms, setup 0ms, collect 342ms, tests 3774.11s, environment 1ms, prepare 288ms)
+ ✓ frontend_2/src/tests/integration/03_stability.spec.ts (1) 3774109ms
+   ✓ ⏳ SwiftMate 1小时高可靠稳定性试验 (1) 3774109ms
+     ✓ I-05: 稳定性接力试验 (持续时间: 3600s) 3770547ms
+
+ Test Files  1 passed (1)
+ ✓ frontend_2/src/tests/integration/03_stability.spec.ts (1) 3774109ms
+   ✓ ⏳ SwiftMate 1小时高可靠稳定性试验 (1) 3774109ms
+     ✓ I-05: 稳定性接力试验 (持续时间: 3600s) 3770547ms
+ ✓ frontend_2/src/tests/integration/03_stability.spec.ts (1) 3774109ms
+   ✓ ⏳ SwiftMate 1小时高可靠稳定性试验 (1) 3774109ms
+ ✓ frontend_2/src/tests/integration/03_stability.spec.ts (1) 3774109ms
+ ✓ frontend_2/src/tests/integration/03_stability.spec.ts (1) 3774109ms
+   ✓ ⏳ SwiftMate 1小时高可靠稳定性试验 (1) 3774109ms
+     ✓ I-05: 稳定性接力试验 (持续时间: 3600s) 3770547ms
+
+ Test Files  1 passed (1)
+ ✓ frontend_2/src/tests/integration/03_stability.spec.ts (1) 3774109ms
+   ✓ ⏳ SwiftMate 1小时高可靠稳定性试验 (1) 3774109ms
+     ✓ I-05: 稳定性接力试验 (持续时间: 3600s) 3770547ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  22:09:05
+   Duration  3775.41s (transform 120ms, setup 0ms, collect 342ms, tests 3774.11s, environment 1ms, prepare 288ms)
+
+ ✓ frontend_2/src/tests/integration/03_stability.spec.ts (1) 3774109ms
+   ✓ ⏳ SwiftMate 1小时高可靠稳定性试验 (1) 3774109ms
+     ✓ I-05: 稳定性接力试验 (持续时间: 3600s) 3770547ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  22:09:05
+   ✓ ⏳ SwiftMate 1小时高可靠稳定性试验 (1) 3774109ms
+     ✓ I-05: 稳定性接力试验 (持续时间: 3600s) 3770547ms
+
+ Test Files  1 passed (1)
+     ✓ I-05: 稳定性接力试验 (持续时间: 3600s) 3770547ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+      Tests  1 passed (1)
+   Start at  22:09:05
+   Duration  3775.41s (transform 120ms, setup 0ms, collect 342ms, tests 3774.11s, environment 1ms, prepare 288ms)
+
+PS C:\Users\16368\Desktop\combin\swiftmate1_6_1> npx vitest run src/tests/integration/03_stability.spec.ts --reporter=json --outputFile=frontend_2/docs/reports/stability_1h.json     
+[Attempt 1340] 🟢 循环 1340 成功运行中... JSON report written to C:/Users/16368/Desktop/combin/swiftmate1_6_1/frontend_2/docs/reports/stability_1h.json
+   Start at  22:09:05
+   Duration  3775.41s (transform 120ms, setup 0ms, collect 342ms, tests 3774.11s, environment 1ms, prepare 288ms)
+   Start at  22:09:05
+   Duration  3775.41s (transform 120ms, setup 0ms, collect 342ms, tests 3774.11s, environment 1ms, prepare 288ms)
+
+PS C:\Users\16368\Desktop\combin\swiftmate1_6_1> npx vitest run src/tests/integration/03_stability.spec.ts --reporter=json --outputFile=frontend_2/docs/reports/stability_1h.json
+[Attempt 1340] 🟢 循环 1340 成功运行中... JSON report written to C:/Users/16368/Desktop/combin/swiftmate1_6_1/frontend_2/docs/reports/stability_1h.json
+PS C:\Users\16368\Desktop\combin\swiftmate1_6_1>

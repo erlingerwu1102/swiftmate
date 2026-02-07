@@ -1,0 +1,30 @@
+@baseUrl = http://127.0.0.1:8000/api/v2
+# 新配置：此处需填入您在后端启动时通过环境变量 ROBOT_API_KEY 注入的实际密钥
+@apiKey = secure-key-2026
+
+### 场景 SIT-001: 动力学辨识参数测试 (V2)
+# 原接口 /api/v1/dynamics/identification 已升级为 start
+POST {{baseUrl}}/dynamics/identification/start
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+    "trajectory_range": 9999,
+    "trajectory_speed": 50
+}
+
+### 场景 SIT-002: 紧急停止
+# 急停接口通常保持匿名访问，路径沿用 V1 BaseUrl
+POST http://127.0.0.1:8000/api/v1/emergency/stop
+
+### 场景 SIT-003: 鉴权拦截测试 (无 Key)
+# 原 /api/v1/translate 已废弃，替换为 V2 核心运镜接口进行鉴权测试
+POST {{baseUrl}}/trajectory/multi-segment
+Content-Type: application/json
+# 注意：此处故意不发送 X-API-Key 头，预期返回 401 Unauthorized
+
+{
+    "waypoints": [[1.0, 0, 0]],
+    "interpolation_type": "linear",
+    "duration": 2.0
+}
