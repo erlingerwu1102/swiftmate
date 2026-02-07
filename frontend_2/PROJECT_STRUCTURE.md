@@ -53,9 +53,9 @@
 │   │
 │   ├── tests/                  # [测试层] 自动化测试用例
 │   │   ├── integration/        # 集成测试场景
-│   │   │   ├── 01_safety.spec.ts    # 安全功能测试 (急停逻辑)
-│   │   │   ├── 02_stress.spec.ts    # 压力测试 (高频操作)
-│   │   │   └── 03_stability.spec.ts # 长时间稳定性测试
+│   │   │   ├── 01_safety.spec.ts       # 安全功能测试 (急停逻辑)
+│   │   │   ├── 03_stability.spec.ts    # 长时间稳定性测试
+│   │   │   └── 04_trajectory.spec.ts   # 轨迹控制模块
 │   │   └── utils.ts            # 测试辅助工具函数
 │   │
 │   ├── types/                  # [类型层] TypeScript 类型声明
@@ -81,6 +81,8 @@
 ├── vite.config.ts              # Vite 构建与代理配置
 ├── vitest.config.ts            # 单元测试环境配置
 ├── PROJECT_STRUCTURE.md        # 目录
+├── .env.local                  #项目本地环境变量配置文件 
+├── test_safety.http            #HTTP 接口测试脚本文件
 ├── README.v2.0.md              #简介
 └── 使用教程.md                   
 
